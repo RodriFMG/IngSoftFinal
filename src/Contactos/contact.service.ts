@@ -103,5 +103,35 @@ export class ContactService {
     }
 
 
+    async addContactToUser(alias: string, createContactDto: ContactDto, nombre : string) {
+
+        let user = await this.prisma.usuario.findUnique({
+            where: { alias },
+        });
+
+        if (!user) {
+            user = await this.prisma.usuario.create({
+
+                data: { alias : alias,
+                nombre : nombre},
+            });
+        }
+
+        const contact = await this.prisma.contacto.create({
+            data: {
+                alias: createContactDto.alias,
+                usuarioId: user["id"],
+            },
+        });
+
+        return {
+            message: 'Contacto añadido con éxito.',
+            contacto: {
+                id: contact["id"],
+                alias: contact["alias"],
+                usuarioId: contact["usuarioId"],
+            },
+        };
+    }
 
 }

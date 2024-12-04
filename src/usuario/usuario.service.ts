@@ -1,7 +1,8 @@
-import { Injectable } from '@nestjs/common';
-import { PrismaClient } from "@prisma/client";
-import { UsuarioDto } from './dto/create-usuario.dto';
-import { UpdateUsuarioDto } from './dto/update-usuario.dto';
+import {Injectable} from '@nestjs/common';
+import {PrismaClient} from "@prisma/client";
+import {UsuarioDto} from './dto/create-usuario.dto';
+import {UpdateUsuarioDto} from './dto/update-usuario.dto';
+import {SearchContactDTO} from "../Contactos/dto/contact.dto";
 
 @Injectable()
 export class UsuarioService {
@@ -36,14 +37,12 @@ export class UsuarioService {
     const result = await this.prisma.usuario.findMany()
 
 
-    const usuarios : UsuarioDto[] = result.map((user) => ({
-      id : user.id,
-      alias : user.alias,
-      DateCreated : user.createdAt,
-      nombre : user.nombre
-    }))
-
-    return usuarios;
+    return result.map((user) => ({
+      id: user.id,
+      alias: user.alias,
+      DateCreated: user.createdAt,
+      nombre: user.nombre
+    }));
 
   }
 
@@ -111,8 +110,52 @@ export class UsuarioService {
   }
 
 
-  async addContact(id1 : number, id2 : number){
+  async getContactsByAlias(alias: string){
 
+    const user = await this.prisma.usuario.findUnique({
+      where: { alias: alias },
+    });
+
+    if (!user) {
+      throw new Error(`El usuario con alias '${alias}' no existe.`);
+    }
+
+    let contactos : SearchContactDTO[]
+
+    await this.prisma.usuario.findUnique({
+      where : { alias : alias },
+      include : {contactos : true}
+    }).then(UserContacts => {
+
+      contactos = UserContacts["contactos"].map((contact) => ({
+        alias : contact.alias,
+        id : contact.id,
+        DateTime: contact.createdAt
+      }))
+
+    })
+
+    return contactos;
+
+  }
+
+  async getAllMensajesRecibidos(alias : string){
+
+
+    const user = await this.prisma.usuario.findUnique({
+      where: { alias: alias },
+    });
+
+    if (!user) {
+      throw new Error(`El usuario con alias '${alias}' no existe.`);
+    }
+
+    const result = await this.prisma.usuario.findUnique({
+      where : { alias : alias },
+      include : { mensajesRecibidos : true }
+    })
+
+    return result["mensajesRecibidos"];
 
   }
 

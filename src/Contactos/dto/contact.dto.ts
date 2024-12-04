@@ -13,6 +13,15 @@ export class ContactDto{
 
 }
 
+export class SearchContactDTO{
+    id? : number;
+    alias : string;
+
+    @Type(() => Date)
+    DateTime? : Date;
+}
+
+
 export class UpdateContactDto{
 
     alias? : string;

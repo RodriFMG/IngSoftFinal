@@ -7,8 +7,16 @@ export class ContactController {
     constructor(private readonly contactService: ContactService) {}
 
     @Post()
-    async createContact(@Body() createContactDto: ContactDto) {
+    async create(@Body() createContactDto: ContactDto) {
         return this.contactService.create(createContactDto);
+    }
+
+    @Post(':alias')
+    async createContact(
+        @Param('alias') alias: string,
+        @Body() createContactDto: ContactDto, nombre : string
+    ) {
+        return this.contactService.addContactToUser(alias, createContactDto, nombre);
     }
 
     @Get()
@@ -30,4 +38,7 @@ export class ContactController {
     removeContact(@Param('id', ParseIntPipe) id: number) {
         return this.contactService.remove(+id);
     }
+
+
+
 }

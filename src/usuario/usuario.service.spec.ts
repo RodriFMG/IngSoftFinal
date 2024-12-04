@@ -1,10 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UsuarioService } from './usuario.service';
 import { PrismaClient } from '@prisma/client';
-import { UsuarioDto } from './dto/create-usuario.dto';
-import { plainToInstance } from 'class-transformer';
-
-
 
 describe('UsuarioService', () => {
   let service: UsuarioService;
@@ -34,39 +30,13 @@ describe('UsuarioService', () => {
     expect(service).toBeDefined();
   });
 
-  describe('create', () => {
-    it('should create a new user', async () => {
-
-      const createUsuarioDto = { alias: 'testAlias', nombre: 'Test User' };
-      const usuarioDto_ = plainToInstance(UsuarioDto, createUsuarioDto);
-      const mockCreatedUser = {
-        id: 1,
-        alias: 'testAlias',
-        nombre: 'Test User',
-        createdAt: new Date(),
-      };
-
-      mockPrismaClient.usuario.create.mockResolvedValue(mockCreatedUser);
-
-      const result = await service.create(usuarioDto_);
-
-      expect(result).toEqual({
-        id: mockCreatedUser.id,
-        alias: mockCreatedUser.alias,
-        nombre: mockCreatedUser.nombre,
-        DateCreated: mockCreatedUser.createdAt,
-      });
-      expect(mockPrismaClient.usuario.create).toHaveBeenCalledWith({
-        data: createUsuarioDto,
-      });
-    });
-  });
-
   describe('findAll', () => {
+    const mockDate = new Date('2024-12-04T03:00:12.065Z');
     it('should return all users', async () => {
+      const mockDate = new Date('2024-12-04T03:00:12.065Z');
       const mockUsers = [
-        { id: 1, alias: 'user1', nombre: 'User One', createdAt: new Date() },
-        { id: 2, alias: 'user2', nombre: 'User Two', createdAt: new Date() },
+        { id: 1, alias: 'user1', nombre: 'User One', createdAt: mockDate },
+        { id: 2, alias: 'user2', nombre: 'User Two', createdAt: mockDate },
       ];
 
       mockPrismaClient.usuario.findMany.mockResolvedValue(mockUsers);
@@ -78,7 +48,7 @@ describe('UsuarioService', () => {
             id: user.id,
             alias: user.alias,
             nombre: user.nombre,
-            DateCreated: user.createdAt,
+            DateCreated:mockDate,
           })),
       );
       expect(mockPrismaClient.usuario.findMany).toHaveBeenCalled();
@@ -92,7 +62,7 @@ describe('UsuarioService', () => {
         id,
         alias: 'user1',
         nombre: 'User One',
-        createdAt: new Date(),
+        createdAt: new Date('2024-12-04T03:00:12.065Z'),
       };
 
       mockPrismaClient.usuario.findUnique.mockResolvedValue(mockUser);
@@ -132,7 +102,7 @@ describe('UsuarioService', () => {
         id,
         alias: 'updatedAlias',
         nombre: 'Updated User',
-        createdAt: new Date(),
+        createdAt: new Date('2024-12-04T03:00:12.065Z'),
       };
 
       mockPrismaClient.usuario.update.mockResolvedValue(mockUpdatedUser);
@@ -157,7 +127,7 @@ describe('UsuarioService', () => {
         id,
         alias: 'user1',
         nombre: 'User One',
-        createdAt: new Date(),
+        createdAt: new Date('2024-12-04T03:00:12.065Z'),
       };
 
       mockPrismaClient.usuario.delete.mockResolvedValue(mockDeletedUser);

@@ -7,26 +7,22 @@ export class ContactService {
 
     private prisma = new PrismaClient();
 
-    async create(createContactDto: ContactDto) {
+    async create(createContactDto: ContactDto): Promise<ContactDto> {
+        const createdContact = await this.prisma.contacto.create({
+            data: {
+                alias: createContactDto.alias,
+                usuarioId: createContactDto.ContactId,
+            },
+        });
 
-        let usuariocreado : ContactDto;
-        await this.prisma.contacto.create({
-            data : {
-                alias : createContactDto.alias,
-            }
-        }).then(CreatedContact => {
-
-            usuariocreado = {
-                alias : CreatedUser.alias,
-                DateTime : CreatedContact.createdAt,
-                id : CreatedUser.id
-            }
-
-        })
-
-        return usuariocreado;
-
+        return {
+            alias: createdContact.alias,
+            DateTime: createdContact.createdAt,
+            id: createdContact.id,
+            ContactId: createdContact.usuarioId,
+        };
     }
+
 
     async findAll() : Promise<ContactDto[]>{
 
@@ -36,7 +32,8 @@ export class ContactService {
         const contactDtos : ContactDto[] = result.map((contact) => ({
             alias : contact.alias,
             DateTime : contact.createdAt,
-            id : contact.id
+            id : contact.id,
+            ContactId : contact.usuarioId
         }))
 
         return contactDtos;
@@ -53,7 +50,8 @@ export class ContactService {
             contact = {
                 alias : contacto.alias,
                 DateTime : contacto.createdAt,
-                id : contacto.id
+                id : contacto.id,
+                ContactId : contact.ContactId
             }
 
         })
@@ -93,7 +91,8 @@ export class ContactService {
             Contacto = {
                 id : contactDeleted.id,
                 alias : contactDeleted.alias,
-                DateTime : contactDeleted.createdAt
+                DateTime : contactDeleted.createdAt,
+                ContactId : contactDeleted.usuarioId
             }
 
         })

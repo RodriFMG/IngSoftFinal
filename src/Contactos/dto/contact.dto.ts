@@ -7,7 +7,9 @@ export class ContactDto{
     alias : string;
 
     @Type(() => Date)
-    DateTime : Date;
+    DateTime? : Date;
+
+    ContactId : number
 
 }
 

@@ -7,22 +7,22 @@ export class ContactController {
     constructor(private readonly contactService: ContactService) {}
 
     @Post()
-    createContact(@Body() createContactDto: ContactDto) {
-        return this.contactService.create(ContactDto);
+    async createContact(@Body() createContactDto: ContactDto) {
+        return this.contactService.create(createContactDto);
     }
 
     @Get()
-    findAllContacts() {
+    async findAllContacts() {
         return this.contactService.findAll();
     }
 
     @Get(':id')
-    findOneContact(@Param('id', ParseIntPipe) id: number) {
+    async findOneContact(@Param('id', ParseIntPipe) id: number) {
         return this.contactService.findOne(+id);
     }
 
     @Patch(':id')
-    updateContact(@Param('id', ParseIntPipe) id: number, @Body() updateContactDto: UpdateContactDto) {
+    async updateContact(@Param('id', ParseIntPipe) id: number, @Body() updateContactDto: UpdateContactDto) {
         return this.contactService.update(+id, updateContactDto);
     }
 

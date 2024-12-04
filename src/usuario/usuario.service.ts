@@ -10,7 +10,7 @@ export class UsuarioService {
 
   async create(createUsuarioDto: UsuarioDto) {
 
-    let usuariocreado : CreateUsuarioDto;
+    let usuariocreado : UsuarioDto;
     await this.prisma.usuario.create({
       data : {
         alias : createUsuarioDto.alias,
@@ -111,7 +111,8 @@ export class UsuarioService {
   }
 
 
-  async addContact(){
+  async addContact(id1 : number, id2 : number){
+
 
   }
 

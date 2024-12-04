@@ -1,0 +1,54 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id Int @id @default(autoincrement())
+
+  alias  String @unique
+  nombre String
+
+  contactos Contacto[] @relation("UsuarioContactos")
+
+  mensajesEnviados Mensaje[] @relation("Remitente")
+
+  mensajesRecibidos Mensaje[] @relation("Destinatario")
+
+  createdAt DateTime @default(now())
+
+  @@map("usuarios")
+}
+
+model Contacto {
+  id            Int      @id @default(autoincrement())
+  alias         String
+  fechaRegistro DateTime @default(now())
+
+  usuario   Usuario @relation("UsuarioContactos", fields: [usuarioId], references: [id])
+  usuarioId Int
+
+  createdAt DateTime @default(now())
+
+  @@map("contactos")
+}
+
+model Mensaje {
+  id         Int      @id @default(autoincrement())
+  contenido  String
+  fechaEnvio DateTime @default(now())
+
+  remitente   Usuario @relation("Remitente", fields: [remitenteId], references: [id])
+  remitenteId Int
+
+  destinatario   Usuario @relation("Destinatario", fields: [destinatarioId], references: [id])
+  destinatarioId Int
+
+  createdAt DateTime @default(now())
+
+  @@map("mensajes")
+}

@@ -1,1 +1,6 @@
-export class CreateUsuarioDto {}
+export class CreateUsuarioDto {
+
+    alias : string;
+    nombre : string;
+
+}

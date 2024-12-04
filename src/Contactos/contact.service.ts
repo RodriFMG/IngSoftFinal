@@ -16,10 +16,10 @@ export class ContactService {
         });
 
         return {
-            alias: createdContact.alias,
-            DateTime: createdContact.createdAt,
-            id: createdContact.id,
-            ContactId: createdContact.usuarioId,
+            alias: createdContact["alias"],
+            DateTime: createdContact["createdAt"],
+            id: createdContact["id"],
+            ContactId: createdContact["usuarioId"],
         };
     }
 

@@ -1,73 +1,11 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Pregunta 3
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Para implementar los cambios necesarios en el software, primero se deben realizar ajustes en las clases y métodos responsables de la gestión de usuarios, contactos y mensajes. En el caso de la validación del número máximo de contactos, es necesario modificar el método encargado de añadir nuevos contactos, como addContact(). Aquí, se debe agregar una verificación que compare el número actual de contactos del usuario con un límite máximo definido. Este límite podría configurarse de manera global o . Si se excede el límite, el sistema debe lanzar una excepción para impedir la asignación de un nuevo contacto 
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+Para la eliminación de contactos, se requiere un ajuste en el método correspondiente, como remove(). Este debe garantizar que los contactos se eliminen o desactiven correctamente sin afectar los mensajes previamente enviados o recibidos por el contacto eliminado. Esto implica mantener los datos de los mensajes en la base de datos
 
-## Description
+En cuanto a la eliminación de usuarios, es crucial implementar una estrategia que permita mantener la integridad de los datos relacionados, como los mensajes enviados. Esto se puede lograr utilizando una eliminación lógica (podríamos poner un atributo buleano q me indique si el usuario esta activo o no asi no tendríamos problemas con la relación de base de datos creada
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+casos de prueba. Por ejemplo, se deben incluir pruebas para validar que el límite de contactos funciona correctamente, tanto al permitir agregar contactos dentro del límite como al impedirlo cuando se excede. Asimismo, es necesario verificar que la eliminación de contactos y usuarios no afecte los mensajes previamente almacenados y que las relaciones entre tablas se actualicen correctamente que los atributo buleano de activo debe ser parte del requerimiento para mandar un mensaje.
 
-## Installation
-
-```bash
-$ npm install
-```
-
-## Running the app
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
-```
-
-## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+las zonas de mayor riesgo incluyen la eliminación de usuarios y contactos, especialmente si los mensajes dependen directamente de estas entidades. Para mitigar este riesgo, se  implementar pruebas automatizadas que verifiquen tanto las nuevas funcionalidades como los procesos existentes para evitar regresiones y garantizar que el sistema continúe funcionando de manera estable y que la se haga caso importante al valor buleano para poder mandar mensajes ahí también es necesario test  .
